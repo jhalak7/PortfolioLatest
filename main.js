@@ -2,26 +2,6 @@
 import * as THREE from 'https://unpkg.com/three@0.120.1/build/three.module.js';
 
 // Setup
-const fs = require('fs');
-
-const express = require('express');
-
-const app = express();
-const port = 4000;
-
-process.send({ event: 'online' });
-
-app.use('/static', express.static(__dirname + '/client'));
-
-app.get('/', function (req, res) {
-    const file = fs.readFileSync('client/index.html', 'utf8');
-    const newFile = file.replace('"{process.env.BROWSER_REFRESH_URL}"', process.env.BROWSER_REFRESH_URL);
-    res.send(newFile);
-})
-
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
 
 //setup
 const scene = new THREE.Scene();
