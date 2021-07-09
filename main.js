@@ -2,16 +2,28 @@ import './style.css';
 import * as THREE from 'three';
 
 // Setup
-app.get('/', function(req,res) {
-  res.send(browserRefresh('index.html'));
+const fs = require('fs');
+
+const express = require('express');
+
+const app = express();
+const port = 4000;
+
+process.send({ event: 'online' });
+
+app.use('/static', express.static(__dirname + '/client'));
+
+app.get('/', function (req, res) {
+    const file = fs.readFileSync('client/index.html', 'utf8');
+    const newFile = file.replace('"{process.env.BROWSER_REFRESH_URL}"', process.env.BROWSER_REFRESH_URL);
+    res.send(newFile);
+})
+
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
 });
 
-function browserRefresh(filePath) {
-  var html = fs.readFileSync(filePath);
-  var $ = cheerio.load(html);
-  $('body').append(`<script src="${process.env.BROWSER_REFRESH_URL}"></script>`);
-  return $.html();
-}
+//setup
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
