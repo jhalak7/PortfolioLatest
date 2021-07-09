@@ -2,7 +2,16 @@ import './style.css';
 import * as THREE from 'three';
 
 // Setup
+app.get('/', function(req,res) {
+  res.send(browserRefresh('index.html'));
+});
 
+function browserRefresh(filePath) {
+  var html = fs.readFileSync(filePath);
+  var $ = cheerio.load(html);
+  $('body').append(`<script src="${process.env.BROWSER_REFRESH_URL}"></script>`);
+  return $.html();
+}
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
