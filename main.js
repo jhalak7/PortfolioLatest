@@ -1,4 +1,4 @@
-import './style.css';
+import 'https://jhalak7.github.io/PortfolioLatest/style.css';
 import * as THREE from 'three';
 
 // Setup
